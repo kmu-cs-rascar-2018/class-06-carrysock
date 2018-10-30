@@ -23,7 +23,32 @@ class myCar(object):
     # Complete the code to perform First Assignment
     # =======================================================================
     def car_startup(self):
-        # Implement the assignment code here.
+        car.accelerator.go_forward(15)
+        while True:
+            data = car.line_detector.read_digital()
+            if data == [0, 0, 0, 0, 0]:
+                time.sleep(1)
+                afterdata = car.line_detector.read_digital()
+                if afterdata == [0, 0, 0, 0, 0]:
+                    car.drive_parking()
+                    break
+            if data == [0, 0, 1, 0, 0]:
+                car.steering.center_alignment()
+            elif data == [1, 0, 0, 0, 0]:
+                car.steering.turn_left(35)
+            elif data == [1, 1, 0, 0, 0]:
+                car.steering.turn_left(30)
+            elif data == [0, 1, 0, 0, 0]:
+                car.steering.turn_left(10)
+            elif data == [0, 0, 0, 0, 1]:
+                car.steering.turn_right(35)
+            elif data == [0, 0, 0, 1, 1]:
+                car.steering.turn_right(30)
+            elif data == [0, 0, 0, 1, 0]:
+                car.steering.turn_right(10)
+
+            time.sleep(0.5)
+
         pass
 
 
@@ -39,7 +64,11 @@ if __name__ == "__main__":
         accelerator.ready()
         distance_detector = Supersonic_Sensor.Supersonic_Sensor(35)
 
+        myCar = myCar("CarName")
+        myCar.car_startup()
+
         #case 1 (15cm)
+
 
         distance1 = -1
         distance2 = -1
